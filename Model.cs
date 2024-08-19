@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace EF_blog;
 
 class DB : DbContext
@@ -25,12 +26,12 @@ public class User
     public int UserId { get; set; }
     public string Name { get; set; }
 
-    public List<Post> Posts { get; } = new();
+    public List<Post> Posts { get; } = new(); //en användare har många inlägg
 
-    public void addposttouser(Post a)
+    public void AddPostToUser(Post a)
     {
-        Posts.Add(a);
-        a.User = this;
+        Posts.Add(a); //lägg till ett inlägg till användaren
+        a.User = this; //ställ in User på inlägget> inlägget tillhör den aktuella användaren
     }
 }
 public class Post
@@ -43,15 +44,14 @@ public class Post
     public Blog Blog { get; set; }
 
     public int UserId { get; set; }
-    public User User { get; set; }
+    public User User { get; set; } //varje inlägg har en användare
 
-    public Category Category { get; set; }
     public List<Category> Categories { get; } = new();
 
-    public void AddCategories(Category c)
+    public void AddCategory(Category c)
     {
-        Categories.Add(c);
-        c.Post = this;
+        Categories.Add(c); //lägg till en kategori till inlägget
+        c.Posts.Add(this); //lägg till inlägget till kategorins lista
     }
 }
 
@@ -60,13 +60,12 @@ public class Category
     public int CategoryId { get; set; }
     public string Name { get; set; }
 
-    public Post Post { get; set; }
     public List<Post> Posts { get; } = new();
 
-    public void AddPostsToCategory(Post a)
+    public void AddPost(Post a)
     {
-        Posts.Add(a);
-        a.Category = this;
+        Posts.Add(a); //lägg till inlägget till kategorins lista
+        a.Categories.Add(this); //lägg till kategorin till inläggets lista
     }
 }
 
@@ -80,7 +79,7 @@ public class Blog
 
     public List<Post> Posts { get; } = new();
 
-    public void AddPostsToBlog(Post a)
+    public void AddPostToBlog(Post a)
     {
         Posts.Add(a);
         a.Blog = this;
