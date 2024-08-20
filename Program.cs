@@ -32,6 +32,14 @@ var user = new User
 db.Users.Add(user);
 db.SaveChanges();
 
+Console.WriteLine("Inserting a new category");
+var category = new Category
+{
+    Name = "food",
+};
+db.Categories.Add(category);
+db.SaveChanges();
+
 // Update
 Console.WriteLine("Updating the user and adding a blog");
 var blog = new Blog
@@ -40,14 +48,6 @@ var blog = new Blog
     User = user
 };
 db.Blogs.Add(blog);
-db.SaveChanges();
-
-Console.WriteLine("Updating the user and adding a category");
-var category = new Category
-{
-    Name = "food",
-};
-db.Categories.Add(category);
 db.SaveChanges();
 
 Console.WriteLine("Updating the blog and adding a post");
@@ -99,4 +99,6 @@ if (blog == null)
 // Delete
 Console.WriteLine("Delete the user");
 db.Remove(user);
+Console.WriteLine("Delete the category");
+db.Remove(category);
 db.SaveChanges();
