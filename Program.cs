@@ -25,12 +25,38 @@ Console.WriteLine($"Database path: {db.path}.");
 
 // Create
 Console.WriteLine("Inserting a new user");
-db.Add(new User { Name = "foodlover" });
+var user = new User
+{ 
+    Name = "foodlover" 
+};
+db.Users.Add(user);
+db.SaveChanges();
+
+
+// Update
+Console.WriteLine("Updating the user and adding a blog");
+var blog = new Blog
+{
+    Url = "http://realfoodie.blog.com/reviews",
+    User = user
+};
+db.Blogs.Add(blog);
+db.SaveChanges();
+
+Console.WriteLine("Updating the blog and adding a post");
+var post = new Post
+{
+    Title = "Okonomiyaki in Osaka",
+    Content = "Osakas okonomiyakis is a must try if you are in Japan!",
+    Blog = blog,
+    User = user
+};
+db.Posts.Add(post);
 db.SaveChanges();
 
 // Read
 Console.WriteLine("Querying for a user");
-var user = db.Users
+user = db.Users
     .Where(u => u.Name == "foodlover")
     .FirstOrDefault();
 if (user == null)
@@ -39,15 +65,8 @@ if (user == null)
     return;
 }
 
-// Update
-Console.WriteLine("Updating the user and adding a blog");
-Blog b = new Blog{ Url = "http://realfoodie.blog.com/reviews", User = user };
-db.Blogs.Add(b);
-db.SaveChanges();
-
-//Read
 Console.WriteLine("Querying for a blog");
-var blog = db.Blogs
+blog = db.Blogs
     .Where(b => b.Url == "http://realfoodie.blog.com/reviews")
     .FirstOrDefault();
 if (blog == null)
@@ -56,15 +75,8 @@ if (blog == null)
     return;
 }
 
-//Update
-Console.WriteLine("Updating the blog and adding a post");
-blog.Posts.Add(
-    new Post { Title = "Okonomiyaki in Osaka", Content = "Osakas okonomiyakis is a must try if you are in Japan!" });
-db.SaveChanges();
-
-//Read
 Console.WriteLine("Querying for a post");
-var post = db.Posts
+post = db.Posts
     .Where(p => p.Title == "Okonomiyaki in Osaka")
     .FirstOrDefault();
 if (blog == null)
@@ -72,7 +84,6 @@ if (blog == null)
     Console.WriteLine("User 'post' not found.");
     return;
 }
-
 
 // Delete
 Console.WriteLine("Delete the user");
