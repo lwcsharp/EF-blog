@@ -32,7 +32,6 @@ var user = new User
 db.Users.Add(user);
 db.SaveChanges();
 
-
 // Update
 Console.WriteLine("Updating the user and adding a blog");
 var blog = new Blog
@@ -43,14 +42,26 @@ var blog = new Blog
 db.Blogs.Add(blog);
 db.SaveChanges();
 
+Console.WriteLine("Updating the user and adding a category");
+var category = new Category
+{
+    Name = "food",
+};
+db.Categories.Add(category);
+db.SaveChanges();
+
 Console.WriteLine("Updating the blog and adding a post");
 var post = new Post
 {
     Title = "Okonomiyaki in Osaka",
     Content = "Osakas okonomiyakis is a must try if you are in Japan!",
     Blog = blog,
-    User = user
+    User = user,
 };
+//post.Categories.Add(category);
+//category.Posts.Add(post);
+category.AddPost(post);
+post.AddCategory(category);
 db.Posts.Add(post);
 db.SaveChanges();
 
