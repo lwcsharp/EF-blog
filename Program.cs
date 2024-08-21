@@ -4,19 +4,19 @@ using var db = new DB();
 Console.WriteLine($"Database path: {db.path}.");
 
 /* Create - user */
-Console.WriteLine("Inserting a new user");
+Console.WriteLine("Inserting - user");
 db.Users.Add(new User { Name = "Yummy" });
 db.SaveChanges();
 
 /* Update - user < blog */
 Console.WriteLine("Updating the user and adding a blog");
 User user = db.Users.Where(u => u.Name == "Yummy").First();
-db.Blogs.Add(new Blog { Url = "FoodBlog", User = user });
+db.Blogs.Add(new Blog { Url = "FoodRecipes", User = user });
 db.SaveChanges();
 
 /* Update - user <> post <> blog */
 Console.WriteLine("Updating the blog with a new post and adding it to usern");
-Blog blog = db.Blogs.Where(b => b.Url == "FoodBlog").First();
+Blog blog = db.Blogs.Where(b => b.Url == "FoodRecipes").First();
 db.Users.First().Posts.Add(new Post { Title = "Taiyaki", Content = "Classic with anko" , User = user, Blog = blog});
 db.SaveChanges();
 
@@ -27,86 +27,89 @@ Post post = db.Users.Where(c => c.Name == "Yummy").First()
 post.AddCategory(new Category { Name = "Food" });
 db.SaveChanges();
 
-/*Create*//*
-Console.WriteLine("Inserting a new user");
-var user = new User
+//----- Another way to populate data -----//
+/*Create*/
+Console.WriteLine("Inserting - user");
+var user2 = new User
 { 
     Name = "foodlover" 
 };
-db.Users.Add(user);
+db.Users.Add(user2);
 db.SaveChanges();
 
-Console.WriteLine("Inserting a new category");
-var category = new Category
+Console.WriteLine("Inserting - category");
+var category2 = new Category
 {
     Name = "food",
 };
-db.Categories.Add(category);
+db.Categories.Add(category2);
 db.SaveChanges();
 
-*//*Update*//*
+/*Update*/
 Console.WriteLine("Updating the user and adding a blog");
-var blog = new Blog
+var blog2 = new Blog
 {
     Url = "http://realfoodie.blog.com/reviews",
-    User = user
+    User = user2
 };
-db.Blogs.Add(blog);
+db.Blogs.Add(blog2);
 db.SaveChanges();
 
 Console.WriteLine("Updating the blog and adding a post");
-var post = new Post
+var post2 = new Post
 {
     Title = "Okonomiyaki in Osaka",
     Content = "Osakas okonomiyakis is a must try if you are in Japan!",
-    Blog = blog,
-    User = user,
+    Blog = blog2,  
+    User = user2, 
 };
-//post.Categories.Add(category);
-//category.Posts.Add(post);
-*//*
-user.AddPostToUser(post);
-blog.AddPostToBlog(post);
-category.AddPost(post);
-*//*
-post.AddCategory(category);
-db.Posts.Add(post);
+////post2.Categories.Add(category2); //2 way, comment out row 65-66
+////category2.Posts.Add(post2); //2 way, comment out row 65-66
+////user2.AddPostToUser(post2); //3 way, comment out row 72-74
+////blog2.AddPostToBlog(post2); //3 way, comment out row 72-74
+category2.AddPost(post2); 
+post2.AddCategory(category2); 
+db.Posts.Add(post2); 
 db.SaveChanges();
 
-*//*Read*//*
-Console.WriteLine("Querying for a user");
-user = db.Users
+/*Read*/
+Console.WriteLine("Querying - user");
+user2 = db.Users
     .Where(u => u.Name == "foodlover")
     .FirstOrDefault();
-if (user == null)
+if (user2 == null)
 {
     Console.WriteLine("User 'user' not found.");
     return;
 }
 
-Console.WriteLine("Querying for a blog");
-blog = db.Blogs
+Console.WriteLine("Querying - blog");
+blog2 = db.Blogs
     .Where(b => b.Url == "http://realfoodie.blog.com/reviews")
     .FirstOrDefault();
-if (blog == null)
+if (blog2 == null)
 {
     Console.WriteLine("User 'blog' not found.");
     return;
 }
 
-Console.WriteLine("Querying for a post");
-post = db.Posts
+Console.WriteLine("Querying - post");
+post2 = db.Posts
     .Where(p => p.Title == "Okonomiyaki in Osaka")
     .FirstOrDefault();
-if (blog == null)
+if (blog2 == null)
 {
     Console.WriteLine("User 'post' not found.");
     return;
 }
 
-*//*Delete*//*
-Console.WriteLine("Delete the user");
-db.Remove(user);
-Console.WriteLine("Delete the category");
-db.Remove(category);
-db.SaveChanges();*/
+/*Delete*/
+Console.WriteLine("Delete - user");
+//db.Remove(user2); ////remove a specific user
+db.Users.RemoveRange(db.Users);
+Console.WriteLine("Delete - post");
+db.Posts.RemoveRange(db.Posts);
+Console.WriteLine("Delete - category");
+db.Categories.RemoveRange(db.Categories);
+//db.Remove(category2); ////remove a specific category
+db.SaveChanges(); 
