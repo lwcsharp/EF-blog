@@ -4,34 +4,28 @@ using var db = new DB();
 Console.WriteLine($"Database path: {db.path}.");
 
 /* Create - user */
+Console.WriteLine("Inserting a new user");
 db.Users.Add(new User { Name = "Yummy" });
 db.SaveChanges();
 
-/* Create - category */
-db.Categories.Add(new Category { Name = "Food" });
+/* Update - user < blog */
+Console.WriteLine("Updating the user and adding a blog");
+User user = db.Users.Where(u => u.Name == "Yummy").First();
+db.Blogs.Add(new Blog { Url = "FoodBlog", User = user });
 db.SaveChanges();
 
-/* Create - blog */
-db.Blogs.Add(new Blog { Url = "FoodBlog" });
+/* Update - user <> post <> blog */
+Console.WriteLine("Updating the blog with a new post and adding it to usern");
+Blog blog = db.Blogs.Where(b => b.Url == "FoodBlog").First();
+db.Users.First().Posts.Add(new Post { Title = "Taiyaki", Content = "Classic with anko" , User = user, Blog = blog});
 db.SaveChanges();
 
-/* Create - post */
-db.Users.First().Posts.Add(new Post { Title = "Takoyaki" });
-db.Users.First().Posts.Add(new Post { Title = "Taiyaki" });
+/* Update - post <> category */
+Console.WriteLine("Updating the post and adding a new category");
+Post post = db.Users.Where(c => c.Name == "Yummy").First()
+    .Posts.Where(p => p.Title == "Taiyaki").First();
+post.AddCategory(new Category { Name = "Food" });
 db.SaveChanges();
-
-/* Update - user <> post */
-Post upost = db.Users.Where(u => u.Name == "Yummy").First()
-    .Posts.Where(p => p.Title == "Takoyaki").First();
-
-/* Update - category <> post */
-Post cpost = db.Categories.Where(c => c.Name == "Food").First()
-    .Posts.Where(p => p.Title == "Takoyaki").First();
-
-/* Update - blog <> post */
-Post bpost = db.Blogs.Where(c => c.Url == "FoodBlog").First()
-    .Posts.Where(p => p.Title == "Takoyaki").First();
-
 
 /*Create*//*
 Console.WriteLine("Inserting a new user");
