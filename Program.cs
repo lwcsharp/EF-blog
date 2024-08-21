@@ -3,27 +3,37 @@ using var db = new DB();
 
 Console.WriteLine($"Database path: {db.path}.");
 
-//db.Users.Add(new User { Name = "Yummy" });
-//db.SaveChanges();
-//db.Users.First().Posts.Add(new Post { Title = "Taiyaki" });
-//db.Users.First().Posts.Add(new Post { Title = "Takoyaki" });
-//db.SaveChanges();
+/* Create - user */
+db.Users.Add(new User { Name = "Yummy" });
+db.SaveChanges();
 
-//db.Blogs.Add(new Blog { Url = "FoodBlog" });
-//db.SaveChanges();
+/* Create - category */
+db.Categories.Add(new Category { Name = "Food" });
+db.SaveChanges();
 
-//db.Categories.Add(new Category { Name = "Food" });
-//db.SaveChanges();
+/* Create - blog */
+db.Blogs.Add(new Blog { Url = "FoodBlog" });
+db.SaveChanges();
 
-//Post Post = db.Users.Where
-//    (u => u.Name == "Yummy")
-//    .First()
-//    .Posts.Where
-//    (p => p.Title == "Taiyaki")
-//    .First();
+/* Create - post */
+db.Users.First().Posts.Add(new Post { Title = "Takoyaki" });
+db.Users.First().Posts.Add(new Post { Title = "Taiyaki" });
+db.SaveChanges();
+
+/* Update - user <> post */
+Post upost = db.Users.Where(u => u.Name == "Yummy").First()
+    .Posts.Where(p => p.Title == "Takoyaki").First();
+
+/* Update - category <> post */
+Post cpost = db.Categories.Where(c => c.Name == "Food").First()
+    .Posts.Where(p => p.Title == "Takoyaki").First();
+
+/* Update - blog <> post */
+Post bpost = db.Blogs.Where(c => c.Url == "FoodBlog").First()
+    .Posts.Where(p => p.Title == "Takoyaki").First();
 
 
-/*Create*/
+/*Create*//*
 Console.WriteLine("Inserting a new user");
 var user = new User
 { 
@@ -40,7 +50,7 @@ var category = new Category
 db.Categories.Add(category);
 db.SaveChanges();
 
-/*Update*/
+*//*Update*//*
 Console.WriteLine("Updating the user and adding a blog");
 var blog = new Blog
 {
@@ -60,16 +70,16 @@ var post = new Post
 };
 //post.Categories.Add(category);
 //category.Posts.Add(post);
-/*
+*//*
 user.AddPostToUser(post);
 blog.AddPostToBlog(post);
 category.AddPost(post);
-*/
+*//*
 post.AddCategory(category);
 db.Posts.Add(post);
 db.SaveChanges();
 
-/*Read*/
+*//*Read*//*
 Console.WriteLine("Querying for a user");
 user = db.Users
     .Where(u => u.Name == "foodlover")
@@ -100,9 +110,9 @@ if (blog == null)
     return;
 }
 
-/*Delete*/
+*//*Delete*//*
 Console.WriteLine("Delete the user");
 db.Remove(user);
 Console.WriteLine("Delete the category");
 db.Remove(category);
-db.SaveChanges();
+db.SaveChanges();*/
