@@ -55,14 +55,16 @@ var post = new Post
 {
     Title = "Okonomiyaki in Osaka",
     Content = "Osakas okonomiyakis is a must try if you are in Japan!",
-    //Blog = blog,
-    //User = user,
+    Blog = blog,
+    User = user,
 };
 //post.Categories.Add(category);
 //category.Posts.Add(post);
+/*
 user.AddPostToUser(post);
 blog.AddPostToBlog(post);
 category.AddPost(post);
+*/
 post.AddCategory(category);
 db.Posts.Add(post);
 db.SaveChanges();
@@ -99,8 +101,8 @@ if (blog == null)
 }
 
 /*Delete*/
-/*Console.WriteLine("Delete the user");
+Console.WriteLine("Delete the user");
 db.Remove(user);
 Console.WriteLine("Delete the category");
 db.Remove(category);
-db.SaveChanges();*/
+db.SaveChanges();
