@@ -23,7 +23,7 @@ Console.WriteLine($"Database path: {db.path}.");
 //    .First();
 
 
-// Create
+/*Create*/
 Console.WriteLine("Inserting a new user");
 var user = new User
 { 
@@ -40,7 +40,7 @@ var category = new Category
 db.Categories.Add(category);
 db.SaveChanges();
 
-// Update
+/*Update*/
 Console.WriteLine("Updating the user and adding a blog");
 var blog = new Blog
 {
@@ -55,17 +55,19 @@ var post = new Post
 {
     Title = "Okonomiyaki in Osaka",
     Content = "Osakas okonomiyakis is a must try if you are in Japan!",
-    Blog = blog,
-    User = user,
+    //Blog = blog,
+    //User = user,
 };
 //post.Categories.Add(category);
 //category.Posts.Add(post);
+user.AddPostToUser(post);
+blog.AddPostToBlog(post);
 category.AddPost(post);
 post.AddCategory(category);
 db.Posts.Add(post);
 db.SaveChanges();
 
-// Read
+/*Read*/
 Console.WriteLine("Querying for a user");
 user = db.Users
     .Where(u => u.Name == "foodlover")
@@ -96,9 +98,9 @@ if (blog == null)
     return;
 }
 
-// Delete
-Console.WriteLine("Delete the user");
+/*Delete*/
+/*Console.WriteLine("Delete the user");
 db.Remove(user);
 Console.WriteLine("Delete the category");
 db.Remove(category);
-db.SaveChanges();
+db.SaveChanges();*/
