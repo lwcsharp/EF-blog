@@ -19,11 +19,12 @@ public class DataPrinter
     public void PrintAllData()
     {
         var users = _db.Users
-            .Include(u => u.Posts)
-            .ThenInclude(p => p.Blog)
-            .Include(u => u.Posts)
-            .ThenInclude(p => p.Categories)
-            .ToList();
+            .Include(u => u.Posts)                  //hämtar användarnas inlägg
+                .ThenInclude(p => p.Blog)          //hämtar blogg kopplade till inläggen
+            .Include(u => u.Posts)                //hämtar användatrnas inlägg igen för kategorier
+                .ThenInclude(p => p.Categories)  //hämtar kategorier kopplade till inläggen
+            .ToList();                          //konverterar resultatet till en lista
+
         int nr = 1;
         foreach (var user in users)
         {

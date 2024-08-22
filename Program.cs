@@ -24,7 +24,8 @@ db.SaveChanges();
 Console.WriteLine("Updating the post and adding a new category");
 Post post = db.Users.Where(c => c.Name == "Yummy").First()
     .Posts.Where(p => p.Title == "Taiyaki").First();
-post.AddCategory(new Category { Name = "Food" });
+var category = new Category { Name = "Food" };
+post.AddCategory(category);
 db.SaveChanges();
 
 //----- Another way to populate data -----//
@@ -63,13 +64,16 @@ var post2 = new Post
     Blog = blog2,  
     User = user2, 
 };
-////post2.Categories.Add(category2); //2 way, comment out row 65-66
-////category2.Posts.Add(post2); //2 way, comment out row 65-66
-////user2.AddPostToUser(post2); //3 way, comment out row 72-74
-////blog2.AddPostToBlog(post2); //3 way, comment out row 72-74
-category2.AddPost(post2); 
-post2.AddCategory(category2); 
-db.Posts.Add(post2); 
+//post2.Categories.Add(category2);  //2 way, comment out row 70-75
+//post2.Categories.Add(category);  //-**-
+//category2.Posts.Add(post2);     //-***-
+//user2.AddPostToUser(post2);       //3 way, comment out row 67-69&74-75
+//blog2.AddPostToBlog(post2);      //-**-
+//category2.AddPost(post2);       //-***-
+//category.AddPost(post2);       //-****-
+post2.AddCategory(category);
+post2.AddCategory(category2);
+db.Posts.Add(post2);
 db.SaveChanges();
 
 /*Read*/
@@ -123,4 +127,4 @@ db.Users.RemoveRange(db.Users);
 Console.WriteLine("Delete > category");
 db.Categories.RemoveRange(db.Categories);
 //db.Remove(category2); ////remove a specific category
-db.SaveChanges(); 
+db.SaveChanges();
