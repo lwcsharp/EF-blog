@@ -18,6 +18,7 @@ public class DataPrinter
 
     public void PrintAllData()
     {
+        //"eager loading" of related data
         var users = _db.Users
             .Include(u => u.Posts)                  //hämtar användarnas inlägg
                 .ThenInclude(p => p.Blog)          //hämtar blogg kopplade till inläggen
