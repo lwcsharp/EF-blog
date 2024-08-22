@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EF_blog;
 
-class DB : DbContext
+public class DB : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Post> Posts { get; set; }
