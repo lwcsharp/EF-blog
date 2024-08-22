@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,21 +16,30 @@ public class DataPrinter
         _db = db;
     }
 
-    public void PrintAllUsers()
+    public void PrintAllData()
     {
+        var users = _db.Users
+            .Include(u => u.Posts)
+            .ThenInclude(p => p.Blog)
+            .Include(u => u.Posts)
+            .ThenInclude(p => p.Categories)
+            .ToList();
+        int nr = 1;
+        foreach (var user in users)
+        {
+            Console.WriteLine($"\n{nr++}.User - {user.Name}");
+            foreach (var post in user.Posts)
+            {
+                Console.WriteLine($"Post - Title: {post.Title}");
+                Console.WriteLine($"Content: {post.Content}");
 
+                Console.WriteLine($"Blog - URL: {post.Blog?.Url}");
+
+                foreach (var category in post.Categories)
+                {
+                    Console.WriteLine($"Category - Name: {category.Name}");
+                }
+            }
+        }
     }
-    public void PrintAllBlogs()
-    {
-
-    }
-    public void PrintAllPost()
-    {
-
-    }
-    public void PrintAllCategories()
-    {
-
-    }
-
 }
