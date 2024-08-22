@@ -94,13 +94,17 @@ if (blog2 == null)
 }
 
 Console.WriteLine("Querying - post");
-post2 = db.Posts
-    .Where(p => p.Title == "Okonomiyaki in Osaka")
-    .FirstOrDefault();
-if (blog2 == null)
+if (post2 == null)
 {
     Console.WriteLine("User 'post' not found.");
     return;
+}
+else
+{
+    post2 = db.Posts
+    .Where(p => p.Title == "Okonomiyaki in Osaka")
+    .FirstOrDefault();
+    Console.WriteLine($"{blog2.Url},{post2?.PostId.ToString()},{post2?.Title},{post2?.Content}");
 }
 
 /*Delete*/
